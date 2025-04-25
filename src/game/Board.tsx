@@ -1,22 +1,30 @@
 import { BoardValue } from "./game.types";
 
 interface boardParams {
-    board: BoardValue[][],
-    onMove: (x: number, y: number) => void
+    board: BoardValue[],
+    winnerSeq: number[] | null,
+    onMove: (i: number) => void
 }
 
 
-export default function Board({board, onMove}: boardParams) {
+export default function Board({board, winnerSeq, onMove}: boardParams) {
 
-    const boardRows = board?.map((row, rowIndex) => (
+    const boardSize = Math.sqrt(board.length);
+
+    const boardRows = new Array(boardSize).fill(0).map((_, rowIndex) => (
         <div key={`row-${rowIndex}`} className="row">
-            {row.map((cell, cellIndex) => (
-                <div key={`cell-${rowIndex}#${cellIndex}`} className="cell">
-                    <button onClick={() => onMove(rowIndex, cellIndex)} className='cellButton'>
-                        {cell}
-                    </button>
-                </div>
-            ))}
+            {new Array(boardSize).fill(0).map((_, colIndex) => {
+                const cellIndex = rowIndex * boardSize + colIndex;
+                const isWinner = winnerSeq?.includes(cellIndex)
+
+                return (
+                    <div key={`cell-${rowIndex}#${colIndex}`} className="cell">
+                        <button onClick={() => onMove(cellIndex)} className={`cellButton ${isWinner && 'winnerCell'}`}>
+                            {board[cellIndex]}
+                        </button>
+                    </div>
+                )}
+            )}
         </div>
     ))
 
