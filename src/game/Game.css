@@ -64,7 +64,6 @@
 }
 
 .cellButton:hover:not([disabled]) {
-    background: #F9FAFB;
     box-shadow: 0 0 0 3px var(--primary-color);
 }
 
