@@ -72,6 +72,26 @@
     opacity: 0.7;
 }
 
+.cellButton:empty {
+    position: relative;
+}
+
+.cellButton:empty::before {
+    content: attr(data-next-move);
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    color: var(--primary-color);
+    transition: opacity 0.2s ease;
+    font-size: 2rem;
+}
+
+.cellButton:empty:hover::before {
+    opacity: 0.4;
+}
+
 .banner {
     background: white;
     padding: 1.5rem;

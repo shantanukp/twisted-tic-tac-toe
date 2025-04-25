@@ -8,9 +8,7 @@ interface boardParams {
     onMove: (i: number) => void
 }
 
-
 export default function Board({board, winnerSeq, earliestMoves, onMove, nextMove}: boardParams) {
-
     const boardSize = Math.sqrt(board.length);
 
     const boardRows = new Array(boardSize).fill(0).map((_, rowIndex) => (
@@ -22,7 +20,11 @@ export default function Board({board, winnerSeq, earliestMoves, onMove, nextMove
 
                 return (
                     <div key={`cell-${rowIndex}#${colIndex}`} className="cell">
-                        <button onClick={() => onMove(cellIndex)} className={`cellButton ${isWinner && 'winnerCell'} ${isEarliestMove && 'earliestMove'}`}>
+                        <button 
+                            onClick={() => onMove(cellIndex)} 
+                            className={`cellButton ${isWinner && 'winnerCell'} ${isEarliestMove && 'earliestMove'}`}
+                            data-next-move={board[cellIndex] === null ? nextMove : undefined}
+                        >
                             {board[cellIndex]}
                         </button>
                     </div>
