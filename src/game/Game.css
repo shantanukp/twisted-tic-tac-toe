@@ -35,6 +35,10 @@
     font-weight: bold;
 }
 
+.earliestMove {
+    background-color: #f1ea84; /* Light gray */
+}
+
 .winnerCell {
     background-color: #4caf50; /* Green */
     color: white;

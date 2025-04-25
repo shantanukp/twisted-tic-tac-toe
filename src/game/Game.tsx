@@ -25,29 +25,46 @@ function checkWinnerSeq(board: BoardValue[]):  number[] | null {
 export default function Game() {
 
     const boardSize = 3;
-    const [board, setBoard] = useState<BoardValue[]>(new Array(boardSize * boardSize).fill(null))
+    const numMoves = boardSize;
+
+    const [lastMovesByPlayer, setLastMovesByPlayer] = useState<number[][]>([new Array(numMoves).fill(null), new Array(numMoves).fill(null)]);
     const nextMove = useRef<BoardValue>('X');
+
+    const board = new Array(boardSize * boardSize).fill(null);
+    lastMovesByPlayer.forEach((moves, playerIndex) => {
+        moves.forEach((move) => {
+            board[move] = playerIndex === 0 ? 'X' : 'O';
+        });
+    });
+
+    const earliestMoves = lastMovesByPlayer.map(moves => moves[0]);
+
     const winnerSeq = checkWinnerSeq(board);
 
     function onMove(i: number) {
         if (winnerSeq || board[i] !== null) return;
 
-        const newBoard = [...board];
-        newBoard[i] = nextMove.current;
+        const playerIndex = nextMove.current === 'X' ? 0 : 1;
+        const lastMoves = [...lastMovesByPlayer];
+        lastMoves[playerIndex].push(i);
+        if (lastMoves[playerIndex].length > numMoves) {
+            lastMoves[playerIndex].shift();
+        }
+
         nextMove.current = nextMove.current === 'X' ? 'O' : 'X';
-        setBoard(newBoard);
+        setLastMovesByPlayer(lastMoves);
     }
 
     function onReset() {
         nextMove.current = 'X';
-        setBoard(new Array(boardSize * boardSize).fill(null));
+        setLastMovesByPlayer([new Array(numMoves).fill(null), new Array(numMoves).fill(null)])
     }
 
     return (
         <div className="t4Game">
             <h1> Twisted Tic-Tac-Toe</h1>
             <Banner nextMove={nextMove.current} winner={winnerSeq ? board[winnerSeq[0]] : null} onReset={onReset}/>
-            <Board board={board} winnerSeq={winnerSeq} onMove={onMove}/>
+            <Board nextMove={nextMove.current} board={board} winnerSeq={winnerSeq} earliestMoves={earliestMoves} onMove={onMove}/>
         </div>
     )
 }
