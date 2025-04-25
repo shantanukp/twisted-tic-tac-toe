@@ -1,0 +1,36 @@
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 100px); /* 3 columns */
+    grid-template-rows: repeat(3, 100px);    /* 3 rows */
+    gap: 10px; /* space between grid items */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.cell {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+}
+
+.cellButton {
+    min-height: 75px;
+    min-width: 75px;
+}
+
+.banner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.bannerText {
+    display: flex;
+    gap: 12px;
+    font-size: 24px;
+    font-weight: bold;
+}
